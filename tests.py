@@ -46,25 +46,14 @@ class TestBooksCollector:
 
         assert collector.get_book_rating(book) is None
 
-    def test_set_book_rating_add_new_book_with_rating_less_than_one_rating_doesnt_change(self):
+    @pytest.mark.parametrize('rating', [-1, 15])
+    def test_set_book_rating_add_new_book_with_out_of_range_one_to_ten_rating_rating_not_change(self, rating):
         collector = BooksCollector()
-        book = new_book
-        rating = -1
 
-        collector.add_new_book(book)
-        collector.set_book_rating(book, rating)
+        collector.add_new_book(new_book)
+        collector.set_book_rating(new_book, rating)
 
-        assert collector.get_book_rating(book) != rating
-
-    def test_set_book_rating_add_new_book_with_rating_more_than_ten_rating_doesnt_change(self):
-        collector = BooksCollector()
-        book = new_book
-        rating = 15
-
-        collector.add_new_book(book)
-        collector.set_book_rating(book, rating)
-
-        assert collector.get_book_rating(book) != rating
+        assert collector.get_book_rating(new_book) != rating
 
     def test_get_book_rating_get_nonexistent_book_rating_rating_is_none(self):
         collector = BooksCollector()
